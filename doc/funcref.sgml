@@ -97,6 +97,7 @@ function.
 <item>_dos_type
 <item>allow_lowercase
 <item><ref id="beep" name="beep">
+<item><ref id="dir_entry_count" name="dir_entry_count">
 <item><ref id="get_ostype" name="get_ostype">
 <item><ref id="gmtime_dt" name="gmtime_dt">
 <item><ref id="mktime_dt" name="mktime_dt">
@@ -109,6 +110,7 @@ function.
 <itemize>
 <item>_dos_type
 <item><ref id="beep" name="beep">
+<item><ref id="dir_entry_count" name="dir_entry_count">
 <item><ref id="get_ostype" name="get_ostype">
 <item><ref id="gmtime_dt" name="gmtime_dt">
 <item><ref id="mktime_dt" name="mktime_dt">
@@ -155,6 +157,7 @@ function.
 <item><ref id="atmos_tick" name="atmos_tick">
 <item><ref id="atmos_tock" name="atmos_tock">
 <item><ref id="atmos_zap" name="atmos_zap">
+<item><ref id="waitvsync" name="waitvsync">
 </itemize>
 
 
@@ -735,7 +738,7 @@ communication, see also <tt>testcode/lib/ser-test.c</tt>.
 <item><ref id="ltoa" name="ltoa">
 <item><ref id="malloc" name="malloc">
 <item><ref id="perror" name="perror">
-<!-- <item><ref id="posix_memalign" name="posix_memalign"> -->
+<item><ref id="posix_memalign" name="posix_memalign">
 <!-- <item><ref id="putenv" name="putenv"> -->
 <item><ref id="qsort" name="qsort">
 <item><ref id="rand" name="rand">
@@ -2433,7 +2436,7 @@ the address must first be ORed with $60.
 <tag/Availability/cc65
 <tag/See also/
 <ref id="cbm_k_listen" name="cbm_k_listen">
-<tag/Exampe/None.
+<tag/Example/None.
 </descrip>
 </quote>
 
@@ -3518,6 +3521,25 @@ used in presence of a prototype.
 <tag/See also/
 <ref id="get_turbomaster_speed" name="get_turbomaster_speed">,
 <ref id="set_turbomaster_speed" name="set_turbomaster_speed">,
+<tag/Example/None.
+</descrip>
+</quote>
+
+
+<sect1>dir_entry_count<label id="dir_entry_count"><p>
+
+<quote>
+<descrip>
+<tag/Function/Returns the number of entries in the directory.
+<tag/Header/<tt/<ref id="apple2.h" name="apple2.h">/
+<tag/Declaration/<tt/unsigned int __fastcall__ dir_entry_count(DIR *dir);/
+<tag/Description/<tt/dir_entry_count/ is machine dependent and does not exist for
+all supported targets. If it exists, it returns the number of active
+(non-deleted) files and directories in the directory.
+<tag/Notes/<itemize>
+<item>The function does not exist on all platforms.
+</itemize>
+<tag/Availability/cc65 (not all platforms)
 <tag/Example/None.
 </descrip>
 </quote>
@@ -6201,6 +6223,32 @@ be used in presence of a prototype.
 </quote>
 
 
+<sect1>posix_memalign<label id="posix_memalign"><p>
+
+<quote>
+<descrip>
+<tag/Function/Allocate aligned dynamic memory.
+<tag/Header/<tt/<ref id="stdlib.h" name="stdlib.h">/
+<tag/Declaration/<tt/int __fastcall__ posix_memalign (void** memptr, size_t alignment, size_t size);/
+<tag/Description/Allocate a block of memory with the given "size", which is aligned to a
+memory address that is a multiple of "alignment".  "alignment" <em/must not/ be
+zero, and <em/must/ be a power of two; otherwise, this function will return
+EINVAL.  The function returns ENOMEM if not enough memory is available
+to satisfy the request.  "memptr" must point to a variable; that variable
+will return the address of the allocated memory.  Use free() to release that
+allocated block.
+<tag/Notes/<itemize>
+<item>The function is only available as fastcall function, so it may only
+be used in presence of a prototype.
+</itemize>
+<tag/Availability/POSIX 1003.1
+<tag/See also/
+<ref id="free" name="free">
+<tag/Example/None.
+</descrip>
+</quote>
+
+
 <sect1>psg_delay<label id="psg_delay"><p>
 
 <quote>
@@ -7293,7 +7341,7 @@ if (stat (FILENAME, &amp;stbuf) == 0) {
 <tag/Function/Get filesystem statistics.
 <tag/Header/<tt/<ref id="sys/statvfs.h" name="sys/statvfs.h">/
 <tag/Declaration/<tt/int __fastcall__ statvfs (const char* pathname, struct statvfs* buf);/
-<tag/Description/<tt/statvfs/ gets information for the filesytem on which the given file
+<tag/Description/<tt/statvfs/ gets information for the filesystem on which the given file
 resides. On success,
 zero is returned. On error, -1 is returned and <tt/errno/ is set to an error
 code describing the reason for the failure.
@@ -8358,6 +8406,8 @@ only in the presence of a prototype.
 <descrip>
 <tag/Function/Wait until the start of the next video frame.
 <tag/Header/<tt/
+<ref id="apple2enh.h" name="apple2enh.h">,
+<ref id="atmos.h" name="atmos.h">,
 <ref id="cbm.h" name="cbm.h">,
 <ref id="gamate.h" name="gamate.h">,
 <ref id="nes.h" name="nes.h">,
@@ -8365,6 +8415,7 @@ only in the presence of a prototype.
 <tag/Declaration/<tt/void waitvsync (void);/
 <tag/Description/Wait for vertical sync, to reduce flickering.
 <tag/Availability/Platforms served by the headers above
+(Atmos requires the VSync hack)
 <tag/Example/None.
 </descrip>
 </quote>
